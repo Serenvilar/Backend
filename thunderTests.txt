@@ -1,0 +1,20 @@
+{
+    "nome": "Quarto King",
+    "banheiro": "Banheiro privado",
+    "tamCama": "193 cm x 200 cm",
+    "wifi": "Wifi",
+    "ar_condi": "Ar-condicionado",
+    "classiAvaliacao": 6.5,
+    "numAvaliacao": "500 avaliações",
+    "status": "Disponível",
+    "valor": 650
+}
+
+
+{
+    "nome": "João Carlos",
+    "cpf": "11111222225",
+    "fk_quarto": 3,
+    "data_checkin": "2024-11-22",
+    "data_checkout": "2024-12-01"
+ }

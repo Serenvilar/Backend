@@ -7,7 +7,7 @@ export async function salvarQuarto(quarto) {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
 
-   let resposta = await con.query(comando, [quarto.nome, quarto.banheiro, quarto.tamCama, quarto.wifi, quarto.arCondi, quarto.classiAvaliacao, quarto.numAvaliacao, quarto.status, quarto.valor]);
+   let resposta = await con.query(comando, [quarto.nome, quarto.banheiro, quarto.tamCama, quarto.wifi, quarto.ar_condi, quarto.classiAvaliacao, quarto.numAvaliacao, quarto.status, quarto.valor]);
    let info = resposta[0];
 
    let idQuarto = info.insertId;
@@ -81,7 +81,7 @@ export async function alterarQuarto(quarto, id) {
         quarto.banheiro, 
         quarto.tamCama, 
         quarto.wifi, 
-        quarto.arCondi, 
+        quarto.ar_condi, 
         quarto.classiAvaliacao, 
         quarto.numAvaliacao, 
         quarto.status, 

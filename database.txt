@@ -1,0 +1,97 @@
+CREATE DATABASE airbnb;
+
+use airbnb;
+
+create table login_adm (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    email varchar(300),
+    senha VARCHAR(300)
+);
+
+select * from login_adm where email = ? and	senha = ?;
+
+select id,
+	   email,
+       senha
+from   login_adm;
+
+insert into login_adm (email,senha) 
+values ('serenvilar.br@gmail.com', 'serenvil@r');
+ 
+SELECT * FROM login_adm WHERE email = 'serenvilar.br@gmail.com' AND senha = 'serenvil@r';
+
+create table quarto (
+    id_quarto int PRIMARY KEY AUTO_INCREMENT,
+    imagem varchar(300),
+    tipo_quarto varchar(50),
+    banheiro varchar(50),
+    tam_cama varchar(40),
+    wifi varchar(40),
+    ar_condi varchar(50),
+    classi_avaliacao double,
+    num_avaliacao varchar(200),
+    status_quar ENUM('Disponível', 'Indisponível') DEFAULT 'Disponível',
+    valor decimal(10,2)
+);
+
+insert into quarto (tipo_quarto, banheiro, tam_cama, wifi, ar_condi, classi_avaliacao, num_avaliacao, status_quar, valor)
+VALUES ('Quarto Deluxe', 'Banheiro privado', '100 cm x 200 cm',
+        'Wifi', 'Ar-condicionado', 9.5, '1,000 avalições', 'Disponível', 500.00);
+select 
+	   id_quarto
+       imagem, 
+	   tipo_quarto, 
+       banheiro, 
+       tam_cama, 
+       wifi, 
+       ar_condi, 
+       classi_avaliacao, 
+       num_avaliacao, 
+       status_quar, 
+       valor
+from quarto;
+
+update quarto
+   set tipo_quarto = ?, 
+       banheiro = ?, 
+       tam_cama = ?, 
+       wifi = ?, 
+       ar_condi = ?, 
+       classi_avaliacao = ?, 
+       num_avaliacao = ?, 
+       status_quar = ?, 
+       valor = ?
+where id_quarto = ?;
+
+delete from quarto where id_quarto = ?;
+
+select * from quarto;
+ 
+ 
+create table hospede (
+    id_hospede int PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(40) not null,
+    cpf varchar(11),
+    fk_quarto int,
+    Foreign Key (fk_quarto) REFERENCES quarto(id_quarto),
+    data_checkin DATE,
+    data_checkout DATE
+);
+ 
+ 
+insert into hospede (nome, cpf, fk_quarto, data_checkin, data_checkout)
+values ('Maria Silva', '11111777216', 1, '2024-10-31', '2024-11-2');
+ 
+select id_hospede,
+	   nome,
+       cpf,
+       fk_quarto,
+       data_checkin,
+       data_checkout
+from   hospede
+where  nome like ?;
+
+delete from hospede where id_hospede = ?;
+ 
+ 
+ 

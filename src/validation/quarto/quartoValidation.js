@@ -1,7 +1,5 @@
-
-
 export function validarCamposObrigatoriosQuarto(quartoObj) {
-    if (!quartoObj.nome)
+    if (!quartoObj.tipo_quarto)
         throw new Error('Nome do quarto obrigatório.');
 
     if (!quartoObj.tamCama)
@@ -14,8 +12,6 @@ export function validarCamposObrigatoriosQuarto(quartoObj) {
 
     if (!quartoObj.numAvaliacao)
         throw new Error('Numero da avaliação do quarto obrigatório.');
-    if (isNaN(quartoObj.numAvaliacao))
-        throw new Error('Numero da avaliação do quarto inválida.');
 
     if (quartoObj.status == undefined)
         throw new Error('Status do quarto obrigatório.');

@@ -99,14 +99,14 @@ let uploadImagem  = multer({ dest: './storage/imagens' });
 endpoints.put('/quarto/:id/imagem', uploadImagem.single('imagem'), async (req, resp) => {
     try {
         // entradas
-        let id = req.params.id;
+        let id = parseInt(req.params.id);
         let caminhoImagem = req.file.path;
 
         // processamento (service)
         await alterarImagemQuartoService(id, caminhoImagem);
 
         // siada response
-        resp.send(204).send();
+        resp.status(204).send();
 
     } 
     catch (err) {
