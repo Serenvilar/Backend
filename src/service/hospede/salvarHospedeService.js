@@ -4,7 +4,7 @@ import { validarCamposObrigatoriosHospede } from "../../validation/hospede/hospe
 export default async function salvarHospedeService(hospedeObj) {
     validarCamposObrigatoriosHospede(hospedeObj);
 
-    // verifica se o quarto já está reservado no período especificado
+    // verificar se o quarto já está reservado no período especificado
     const reservaConflitante = await consultarReservaAtivaPorQuarto(
         hospedeObj.fk_quarto,
         hospedeObj.data_checkin,

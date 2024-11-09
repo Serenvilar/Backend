@@ -29,7 +29,7 @@ export async function salvarHospede(hospede) {
         throw new Error('Falha na inserção do Hóspede.');
     }
 
-    // Atualiza o status do quarto para "Indisponível"
+    // atualiza o status do quarto para "Indisponível"
     let comandoUpdateQuarto = `
         update quarto
         set status_quar = 'Indisponível'

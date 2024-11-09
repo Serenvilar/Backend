@@ -19,6 +19,7 @@ endpoints.post('/quarto', async (req, resp) => {
         resp.send({
             id: id
         })
+        console.log("Dados recebidos no backend:", req.body);
 
     } catch (err) {
         logErro(err);
