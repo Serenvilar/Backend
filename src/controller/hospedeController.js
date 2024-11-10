@@ -2,6 +2,7 @@ import salvarHospedeService from "../service/hospede/salvarHospedeService.js";
 import consultarHospedeService from "../service/hospede/consultarHospedeService.js";
 import consultarHospedePorIdService from "../service/hospede/consultarHospedePorIdService.js";
 import deletarHospedeService from "../service/hospede/deletarHospedeService.js";
+import { consultarHospedePorIdQuartoService } from "../service/hospede/consultarHospedePorIdQuartoService.js";
 
 import { Router } from "express";
 const endpoints = Router();
@@ -53,6 +54,19 @@ endpoints.get('/reserva/:id', async (req, resp) => {
         resp.status(400).send(criarErro(err)); 
     }
 })
+
+endpoints.get('/reserva/quarto/:id', async (req, resp) => {
+    try {
+        let id = req.params.id;
+
+        let hospede = await consultarHospedePorIdQuartoService(id);
+
+        resp.send(hospede);
+    } catch (err) {
+        console.error(err); 
+        resp.status(400).send({ erro: 'Erro ao buscar as reservas do quarto.' });
+    }
+});
 
 
 endpoints.delete('/reserva/:id', async (req, resp) => {

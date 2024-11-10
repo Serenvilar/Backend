@@ -78,6 +78,18 @@ export async function consultarHospedePorId(id) {
     return dados;
 }
 
+export async function consultarHospedePorIdQuarto(idQuarto) {
+    let comando = `
+        select id_hospede as id,  nome 
+        from hospede 
+        where fk_quarto = ?
+    `;
+
+    let [linhas] = await con.query(comando, [idQuarto]);
+    return linhas
+    
+}
+
 export async function deletarHospede(id) {
     // recuperar o fk_quarto (id do quarto) antes de excluir o hóspede
     let comandoSelect = `
