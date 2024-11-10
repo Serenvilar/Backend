@@ -80,8 +80,10 @@ export async function consultarHospedePorId(id) {
 
 export async function consultarHospedePorIdQuarto(idQuarto) {
     let comando = `
-        select id_hospede as id,  nome 
-        from hospede 
+        select id_hospede as id,  
+        nome, 
+        data_checkin, 
+        data_checkout from hospede 
         where fk_quarto = ?
     `;
 
