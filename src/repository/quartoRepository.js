@@ -1,21 +1,30 @@
-import con from './connection.js';
-
+import con from "./connection.js";
 
 export async function salvarQuarto(quarto) {
-    let comando = `
+  let comando = `
         insert into quarto (tipo_quarto, banheiro, tam_cama, wifi, ar_condi, classi_avaliacao, num_avaliacao, status_quar, valor)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `
+    `;
 
-   let resposta = await con.query(comando, [quarto.nome, quarto.banheiro, quarto.tamCama, quarto.wifi, quarto.ar_condi, quarto.classiAvaliacao, quarto.numAvaliacao, quarto.status, quarto.valor]);
-   let info = resposta[0];
+  let resposta = await con.query(comando, [
+    quarto.nome,
+    quarto.banheiro,
+    quarto.tamCama,
+    quarto.wifi,
+    quarto.ar_condi,
+    quarto.classiAvaliacao,
+    quarto.numAvaliacao,
+    quarto.status,
+    quarto.valor,
+  ]);
+  let info = resposta[0];
 
-   let idQuarto = info.insertId;
-   return idQuarto;
+  let idQuarto = info.insertId;
+  return idQuarto;
 }
 
 export async function consultarQuartos(nome) {
-    let comando = `       
+  let comando = `       
         select id_quarto         id,
                imagem, 
 	           tipo_quarto       nome, 
@@ -29,16 +38,16 @@ export async function consultarQuartos(nome) {
                valor
         from   quarto
         where  tipo_quarto like ?
-    `
+    `;
 
-    let resposta = await con.query(comando, ['%' + nome + '%']);
-    let registros = resposta[0];
+  let resposta = await con.query(comando, ["%" + nome + "%"]);
+  let registros = resposta[0];
 
-    return registros;
+  return registros;
 }
 
 export async function consultarQuartoPorId(id) {
-    let comando = `       
+  let comando = `       
         select id_quarto         id,
                imagem, 
 	           tipo_quarto       nome, 
@@ -52,19 +61,19 @@ export async function consultarQuartoPorId(id) {
                valor
         from   quarto
         where  id_quarto = ?
-    `
+    `;
 
-    let resposta = await con.query(comando, [id]);
-    let registros = resposta[0];
+  let resposta = await con.query(comando, [id]);
+  let registros = resposta[0];
 
-    return registros;
+  return registros;
 }
 
-
 export async function alterarQuarto(quarto, id) {
-    let comando = `
+  let comando = `
         update quarto
            set tipo_quarto = ?, 
+               imagem = ?,
                banheiro = ?, 
                tam_cama = ?, 
                wifi = ?, 
@@ -74,48 +83,50 @@ export async function alterarQuarto(quarto, id) {
                status_quar = ?, 
                valor = ?
         where id_quarto = ?;
-    `
+    `;
 
-    let resposta = await con.query(comando, [
-        quarto.nome, 
-        quarto.banheiro, 
-        quarto.tamCama, 
-        quarto.wifi, 
-        quarto.ar_condi, 
-        quarto.classiAvaliacao, 
-        quarto.numAvaliacao, 
-        quarto.status, 
-        quarto.valor, 
-        id]);
+  let resposta = await con.query(comando, [
+    quarto.nome,
+    quarto.imagem,
+    quarto.banheiro,
+    quarto.tamCama,
+    quarto.wifi,
+    quarto.ar_condi,
+    quarto.classiAvaliacao,
+    quarto.numAvaliacao,
+    quarto.status,
+    quarto.valor,
+    id,
+  ]);
 
-    let info = resposta[0];
-    let linhasAfetadas = info.affectedRows;
+  let info = resposta[0];
+  let linhasAfetadas = info.affectedRows;
 
-    return linhasAfetadas;
+  return linhasAfetadas;
 }
 
 export async function deletarQuarto(id) {
-    let comando = `
+  let comando = `
         delete from quarto where id_quarto = ?;
-    `
-   
-    let resposta = await con.query(comando, [id]);
-    let info = resposta[0];
+    `;
 
-    let linhasAfetadas = info.affectedRows;
-    return linhasAfetadas
+  let resposta = await con.query(comando, [id]);
+  let info = resposta[0];
+
+  let linhasAfetadas = info.affectedRows;
+  return linhasAfetadas;
 }
 
 export async function alterarImagemQuarto(id, caminho) {
-    let comando = `
+  let comando = `
         update quarto
            set imagem = ?
         where id_quarto = ?
-    `
+    `;
 
-    let resposta = await con.query(comando, [caminho, id]);
-    let info = resposta[0];
+  let resposta = await con.query(comando, [caminho, id]);
+  let info = resposta[0];
 
-    let linhasAfetadas = info.affectedRows;
-    return linhasAfetadas;
+  let linhasAfetadas = info.affectedRows;
+  return linhasAfetadas;
 }

@@ -1,16 +1,13 @@
-import { horaAtual } from  "./datetime.js";
-
-
+import { horaAtual } from "./datetime.js";
 
 global.criarErro = function criarErro(err) {
-    let obj = {
-        erro: err.message
-    }
+  let obj = {
+    erro: err.message,
+  };
 
-    return obj;
-}
-
+  return obj;
+};
 
 global.logErro = function logError(err) {
-    console.log(horaAtual() + ' ERROR --> ' + err.message);
-}
+  console.log(horaAtual() + " ERROR --> " + err.message);
+};
