@@ -19,7 +19,8 @@ endpoints.post("/quarto", async (req, resp) => {
       id: id,
     });
     console.log("Dados recebidos no backend:", req.body);
-  } catch (err) {
+  }
+  catch (err) {
     logErro(err);
     resp.status(400).send(criarErro(err));
   }
@@ -35,7 +36,7 @@ endpoints.get("/quarto", async (req, resp) => {
 
     // saida
     resp.send(registros);
-  } catch (error) {
+  } catch (err) {
     logErro(err);
     resp.status(400).send(criarErro(err));
   }
@@ -90,20 +91,22 @@ endpoints.delete("/quarto/:id", async (req, resp) => {
 let uploadImagem = multer({ dest: "./storage/imagens" });
 
 endpoints.put("/quarto/:id/imagem", uploadImagem.single("imagem"), async (req, resp) => {
-    try {
-      // entradas
-      let id = parseInt(req.params.id);
-      let caminhoImagem = req.file.path;
+  try {
+    // entradas
+    let id = parseInt(req.params.id);
+    let caminhoImagem = req.file.path;
 
-      // processamento (service)
-      await alterarImagemQuartoService(id, caminhoImagem);
+    // processamento (service)
+    await alterarImagemQuartoService(id, caminhoImagem);
 
-      // siada response
-      resp.status(204).send();
-    } catch (err) {
-      logErro(err);
-      resp.status(400).send(criarErro(err));
-    }
+    // siada response
+    resp.status(204).send();
+  } catch (err) {
+    logErro(err);
+    resp.status(400).send(criarErro(err));
   }
-);
+});
+
 export default endpoints;
+
+

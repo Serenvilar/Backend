@@ -9,12 +9,12 @@ export async function salvarQuarto(quarto) {
   let resposta = await con.query(comando, [
     quarto.nome,
     quarto.banheiro,
-    quarto.tamCama,
+    quarto.tam_cama,
     quarto.wifi,
     quarto.ar_condi,
-    quarto.classiAvaliacao,
-    quarto.numAvaliacao,
-    quarto.status,
+    quarto.classi_avaliacao,
+    quarto.num_avaliacao,
+    quarto.status_quar,
     quarto.valor,
   ]);
   let info = resposta[0];
@@ -27,14 +27,14 @@ export async function consultarQuartos(nome) {
   let comando = `       
         select id_quarto         id,
                imagem, 
-	           tipo_quarto       nome, 
+	             tipo_quarto       nome, 
                banheiro, 
-               tam_cama          cama, 
+               tam_cama, 
                wifi, 
-               ar_condi          arcondicionado, 
-               classi_avaliacao  avaliacao, 
-               num_avaliacao     numero, 
-               status_quar       status, 
+               ar_condi, 
+               classi_avaliacao, 
+               num_avaliacao, 
+               status_quar, 
                valor
         from   quarto
         where  tipo_quarto like ?
@@ -50,14 +50,14 @@ export async function consultarQuartoPorId(id) {
   let comando = `       
         select id_quarto         id,
                imagem, 
-	           tipo_quarto       nome, 
+	             tipo_quarto       nome, 
                banheiro, 
-               tam_cama          cama, 
+               tam_cama, 
                wifi, 
-               ar_condi          arcondicionado, 
-               classi_avaliacao  avaliacao, 
-               num_avaliacao     numero, 
-               status_quar       status, 
+               ar_condi, 
+               classi_avaliacao, 
+               num_avaliacao, 
+               status_quar, 
                valor
         from   quarto
         where  id_quarto = ?
@@ -68,33 +68,35 @@ export async function consultarQuartoPorId(id) {
 
   return registros;
 }
-
 export async function alterarQuarto(quarto, id) {
+  // se uma nova imagem for fornecida, vamos utilizar, e caso contrario, vamos manter o valor atual da imagem.
+  const imagem = quarto.imagem ? quarto.imagem : undefined; // se nao enviar nova imagem, o valor sera undefined
+
   let comando = `
-        update quarto
-           set tipo_quarto = ?, 
-               imagem = ?,
-               banheiro = ?, 
-               tam_cama = ?, 
-               wifi = ?, 
-               ar_condi = ?, 
-               classi_avaliacao = ?, 
-               num_avaliacao = ?, 
-               status_quar = ?, 
-               valor = ?
-        where id_quarto = ?;
-    `;
+    update quarto
+       set tipo_quarto = ?, 
+           imagem = COALESCE(?, imagem), 
+           banheiro = ?, 
+           tam_cama = ?, 
+           wifi = ?, 
+           ar_condi = ?, 
+           classi_avaliacao = ?, 
+           num_avaliacao = ?, 
+           status_quar = ?, 
+           valor = ?
+    where id_quarto = ?;
+  `;
 
   let resposta = await con.query(comando, [
     quarto.nome,
-    quarto.imagem,
+    imagem,  // COALESCE mantem o valor atual se imagem for undefined
     quarto.banheiro,
-    quarto.tamCama,
+    quarto.tam_cama,
     quarto.wifi,
     quarto.ar_condi,
-    quarto.classiAvaliacao,
-    quarto.numAvaliacao,
-    quarto.status,
+    quarto.classi_avaliacao,
+    quarto.num_avaliacao,
+    quarto.status_quar,
     quarto.valor,
     id,
   ]);
@@ -104,6 +106,8 @@ export async function alterarQuarto(quarto, id) {
 
   return linhasAfetadas;
 }
+
+
 
 export async function deletarQuarto(id) {
   let comando = `
@@ -130,3 +134,4 @@ export async function alterarImagemQuarto(id, caminho) {
   let linhasAfetadas = info.affectedRows;
   return linhasAfetadas;
 }
+

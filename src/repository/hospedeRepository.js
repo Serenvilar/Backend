@@ -3,29 +3,39 @@ import con from "./connection.js";
 export async function consultarReservaAtivaPorQuarto(
   id_quarto,
   data_checkin,
-  data_checkout
+  horario_checkin,
+  data_checkout,
+  horario_checkout,
 ) {
   const comando = `
         SELECT 1
         FROM hospede
         WHERE fk_quarto = ?
-          AND (data_checkin < ? AND data_checkout > ?)
+          AND (
+            (data_checkin < ? OR (data_checkin = ? AND horario_checkin <= ?))
+            AND (data_checkout > ? OR (data_checkout = ? AND horario_checkout >= ?))
+          )
     `;
 
   const [resposta] = await con.query(comando, [
     id_quarto,
     data_checkout,
+    data_checkout,
+    horario_checkout,
     data_checkin,
+    data_checkin,
+    horario_checkin,
   ]);
 
   // retorna "true" se já existe uma reserva ativa para o quarto nesse período, senão "false"
   return resposta.length > 0;
 }
 
+
 export async function salvarHospede(hospede) {
   let comando = `
-        insert into hospede (nome, cpf, fk_quarto, data_checkin, data_checkout)
-        values (?, ?, ?, ?, ?)
+        insert into hospede (nome, cpf, fk_quarto, data_checkin, horario_checkin, data_checkout, horario_checkout)
+        values (?, ?, ?, ?, ?, ?, ?)
     `;
 
   let resposta = await con.query(comando, [
@@ -33,7 +43,9 @@ export async function salvarHospede(hospede) {
     hospede.cpf,
     hospede.fk_quarto,
     hospede.data_checkin,
+    hospede.horario_checkin,
     hospede.data_checkout,
+    hospede.horario_checkout
   ]);
 
   let info = resposta[0];
@@ -61,7 +73,9 @@ export async function consultarHospede(nome) {
                cpf,
                fk_quarto    id_quarto,
                data_checkin,
-               data_checkout
+               horario_checkin,
+               data_checkout,
+               horario_checkout
         from   hospede
         where  nome like ?
     `;
@@ -79,7 +93,9 @@ export async function consultarHospedePorId(id) {
                cpf,
                fk_quarto    id_quarto,
                data_checkin,
-               data_checkout
+               horario_checkin,
+               data_checkout,
+               horario_checkout
         from   hospede
         where  id_hospede = ?
     `;
@@ -93,10 +109,13 @@ export async function consultarHospedePorId(id) {
 export async function consultarHospedePorIdQuarto(idQuarto) {
   let comando = `
         select id_hospede as id,  
-        nome, 
-        cpf,
-        data_checkin, 
-        data_checkout from hospede 
+               nome, 
+               cpf,
+               data_checkin, 
+               horario_checkin,
+               data_checkout,
+               horario_checkout 
+        from hospede 
         where fk_quarto = ?
     `;
 
@@ -110,7 +129,9 @@ export async function alterarHospede(hospede, id) {
            set nome = ?,
                cpf = ?,
                data_checkin = ?,
-               data_checkout = ?
+               horario_checkin = ?,
+               data_checkout = ?,
+               horario_checkout = ?
         where id_hospede = ?;
     `;
 
@@ -118,7 +139,9 @@ export async function alterarHospede(hospede, id) {
     hospede.nome,
     hospede.cpf,
     hospede.data_checkin,
+    hospede.horario_checkin,
     hospede.data_checkout,
+    hospede.horario_chechout,
     id,
   ]);
 
