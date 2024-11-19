@@ -175,7 +175,7 @@ export async function deletarHospede(id) {
     throw new Error(`Falha ao excluir hospede com id ${id}`);
   }
 
-  // se o id da sala existe, atualize o status da sala de volta para "Disponível"
+  // se o id do quarto existe, atualize o status do quarto de volta para "Disponível"
   if (quartoId) {
     let comandoUpdateQuarto = `
             update quarto
